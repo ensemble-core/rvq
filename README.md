@@ -12,9 +12,8 @@ This repository provides a highly optimized, 100% GPU-streaming pipeline for run
 ## 📦 File Overview
 
 *   `compress_full_model.py`: Script to compress a standard HuggingFace model using Residual Vector Quantization.
-*   `infer_compressed_gpu_only.py`: The minimalist (~400 lines) inference engine that performs layerwise decoding on the GPU.
+*   `infer_compressed_layerwise.py`: The minimalist (~400 lines) inference engine that performs layerwise decoding on the GPU.
 *   `triton_decode_kernels.py`: The custom Triton kernels used for lightning-fast on-device decompression.
-*   `benchmark_baseline.py`: A script for benchmarking the uncompressed baseline model for performance comparisons.
 
 ## ⚙️ Requirements
 
@@ -38,7 +37,7 @@ python compress_full_model.py \
 Run the GPU-only streaming decoder. You can monitor performance metrics by appending the reporting flags.
 
 ```bash
-python infer_compressed_gpu_only.py \
+python infer_compressed_layerwise.py \
     --model-dir Qwen3.5-4B-rvq \
     --prompt "What is the capital of France?" \
     --max-new-tokens 128 \
