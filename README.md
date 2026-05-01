@@ -1,4 +1,4 @@
-# RVQ-Triton: Low-VRAM Layerwise Inference for Compressed LLMs
+# RVQ-Layerwise: Low-VRAM Layerwise Inference for Compressed LLMs
 
 This repository provides a highly optimized, 100% GPU-streaming pipeline for running extremely large language models on consumer hardware. By combining **Residual Vector Quantization (RVQ)** with a **2-slot ping-pong layerwise decoding engine**, this project massively reduces Peak VRAM requirements while bypassing traditional PCIe host-to-device bottlenecks.
 
