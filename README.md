@@ -4,7 +4,7 @@ This repository provides a highly optimized, 100% GPU-streaming pipeline for run
 
 ## 🚀 Key Features
 
-*   **Massive VRAM Savings:** Cuts Peak VRAM consumption by nearly 50%. A 4B parameter model runs comfortably in ~4.3 GB of VRAM instead of 8.1 GB.
+*   **Massive VRAM Savings:** Cuts Peak VRAM consumption by nearly 50%. A Qwen3.5-4B parameter model runs comfortably in ~4.3 GB of VRAM instead of 8.1 GB.
 *   **Zero-CPU Architecture:** All codebooks, indices, and scales are loaded directly into VRAM at startup. No host-memory cache or background multi-threading is used during generation.
 *   **Triton-Accelerated Decoding:** Layer weights are decompressed entirely on the GPU in real-time using highly optimized custom Triton kernels.
 *   **Ping-Pong Streaming:** Utilizes a strict 2-slot memory buffer. While PyTorch executes Layer $i$ on Stream A, Triton asynchronously decompresses Layer $i+1$ into the alternating slot on Stream B.
@@ -52,8 +52,7 @@ Performance comparison on **Qwen3.5-4B** (Uncompressed Baseline vs. Layerwise RV
 
 | Metric | Base Model (Qwen3.5-4B) | Layerwise RVQ (Qwen3.5-4B-rvq) | Difference |
 | :--- | :--- | :--- | :--- |
-| **Peak VRAM Allocated** | 8,122.3 MiB | **4,311.1 MiB** | **46.9% Reduction** (Saving ~3.8 GB) |
-| **Time to First Token** | **371.5 ms** | 2,144.1 ms | 5.7x slower |
-| **Decode Speed** | **26.2 tokens/sec** | 12.8 tokens/sec | 51.1% slower |
+| **Peak VRAM Allocated** | 8,187 MiB | **4,311 MiB** | **47% Reduction** (Saving ~3.8 GB) |
+| **Time to First Token** | **340 ms** | 464 ms | 1.3x slower |
+| **Decode Speed** | **43 ms/token** | 67 ms/token | 1.5x slower |
 
-*Note: While Time-to-First-Token is higher due to the initial sequential graph stream, the decode speed stabilizes at ~13 tokens/sec, providing a highly readable and smooth generation experience on heavily constrained hardware.*
