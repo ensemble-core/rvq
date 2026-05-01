@@ -12,7 +12,7 @@ This repository provides a highly optimized, 100% GPU-streaming pipeline for run
 ## 📦 File Overview
 
 *   `compress_full_model.py`: Script to compress a standard HuggingFace model using Residual Vector Quantization.
-*   `infer_compressed_layerwise_triton.py`: The minimalist (~400 lines) inference engine that performs layerwise decoding on the GPU.
+*   `infer_compressed_layerwise_triton.py`: The inference engine that performs layerwise decoding on the GPU.
 *   `triton_decode_kernels.py`: The custom Triton kernels used for lightning-fast on-device decompression.
 
 ## ⚙️ Requirements
