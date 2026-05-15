@@ -408,6 +408,12 @@ def _drop_always_hot_compressed_entries(plan) -> int:
     return removed
 
 
+def _drop_cpu_compressed_entries(plan) -> int:
+    removed = _object_tensor_nbytes(plan["entries"])
+    plan["entries"].clear()
+    return removed
+
+
 class SlotResidency:
     def __init__(self, model, plan, shared_codebooks, device, runtime_dtype, slot_count: int) -> None:
         if slot_count not in (1, 2):
@@ -604,7 +610,7 @@ class SlotResidency:
 
     def _ensure_slot_tensor(self, layer_idx: int, slot_idx: int, key: str):
         rel_name = self.layer_relative_keys[layer_idx][key]
-        entry = self.plan["entries"][key]
+        entry = self.gpu_entry_cache[key]
         shape = tuple(entry["shape"])
         slot_state = self.slot_states[slot_idx]
         cached = slot_state.get(rel_name)
@@ -944,6 +950,10 @@ def load_slot_model(compressed_dir: str, device, slot_count: int):
     residency.preload_compressed_entries_to_gpu()
     residency.warmup_triton_decode()
     residency.dropped_always_hot_tensor_bytes = _drop_always_hot_compressed_entries(plan)
+    residency.dropped_cpu_compressed_tensor_bytes = _drop_cpu_compressed_entries(plan)
+    artifact.clear()
+    entry_map = None
+    shared_codebooks = None
     gc.collect()
 
     model.eval()
