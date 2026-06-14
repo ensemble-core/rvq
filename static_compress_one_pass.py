@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+"""
+
+python static_compress_one_pass.py   --teacher-path Qwen/Qwen3-4B   --output-dir Qwen3-4B-L0-L35-Half   --temp-dir ./temp_activations_l0_35   --start-layer 0   --num-layers 36   --num-samples 960   --batch-size 32   --steps 96000   --lr 1e-3   --enable-thinking   --gen-len 512
+
+"""
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
